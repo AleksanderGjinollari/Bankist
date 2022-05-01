@@ -64,3 +64,35 @@ document
   });
 console.log(message);
 console.log('new branch');
+
+// Styles
+message.style.backgroundColor = '#37383d';
+message.style.width = '120%';
+
+message.style.height =
+  Number.parseFloat(getComputedStyle(message).height, 10) + 20 + 'px';
+console.log(getComputedStyle(message).height);
+
+document.documentElement.style.setProperty('--color-primary', 'orangered');
+
+// Attributes
+const logo = document.querySelector('.nav__logo');
+console.log(logo.alt);
+console.log(logo.src);
+logo.getAttribute('src');
+const link = document.querySelector('.twitter-link');
+console.log(link.getAttribute('href'));
+logo.alt = 'Beautiful minimalist logo';
+logo.setAttribute('company', 'Bankist');
+
+// Data attributes
+// console.log(logo.dataset.versionNumber);
+
+// Classes
+logo.classList.add('c');
+logo.classList.remove('c');
+logo.classList.toggle('c');
+logo.classList.contains('c');
+
+// Don't use
+logo.className('jonas');
