@@ -73,7 +73,7 @@ message.style.height =
   Number.parseFloat(getComputedStyle(message).height, 10) + 20 + 'px';
 console.log(getComputedStyle(message).height);
 
-document.documentElement.style.setProperty('--color-primary', 'orangered');
+// document.documentElement.style.setProperty('--color-primary', 'orangered');
 
 // Attributes
 const logo = document.querySelector('.nav__logo');
@@ -116,3 +116,18 @@ btnScrollTo.addEventListener('click', function (e) {
   // Modern scrolling way
   section1.scrollIntoView({ behavior: 'smooth' });
 });
+
+const h1 = document.querySelector('h1');
+const alertH1 = function (e) {
+  alert('addEventListener: Great! You are reading the heading');
+  h1.removeEventListener('mouseenter', alertH1);
+};
+h1.addEventListener('mouseenter', alertH1);
+setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 3000);
+// h1.addEventListener('mouseenter', function (e) {
+//   alert('addEventListener: Great! You are reading the heading');
+// });
+
+// h1.onmouseenter = function (e) {
+//   alert('addEventListener: Great! You are reading the heading');
+// };
