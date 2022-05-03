@@ -16,6 +16,7 @@ const tabsContent = document.querySelectorAll('.operations__content');
 const nav = document.querySelector('.nav');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
+const header = document.querySelector('.header');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -44,7 +45,6 @@ document.addEventListener('keydown', function (e) {
 // selecting elements
 // console.log(document.documentElement);
 
-const header = document.querySelector('.header');
 // document.getElementById('#section--1');
 
 // Creating and inserting elements
@@ -253,14 +253,26 @@ nav.addEventListener('mouseout', handleHover.bind(1));
 //   if (window.scrollY > initialCoords.top) nav.classList.add('sticky');
 //   else nav.classList.remove('sticky');
 // });
-const obsCallback = function (entries, observer) {
-  entries.forEach(entry => {
-    console.log(entry);
-  });
+// const obsCallback = function (entries, observer) {
+//   entries.forEach(entry => {
+//     console.log(entry);
+//   });
+// };
+// const obsOptions = {
+//   root: null,
+//   threshold: [0, 0.2],
+// };
+// const observer = new IntersectionObserver(obsCallback, obsOptions);
+// observer.observe(section1);
+const navHeight = nav.getBoundingClientRect().height;
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
 };
-const obsOptions = {
+const headerObserver = new IntersectionObserver(stickyNav, {
   root: null,
-  threshold: 0.1,
-};
-const observer = new IntersectionObserver(obsCallback, obsOptions);
-observer.observe(section1);
+  threshold: 0,
+  rootMargin: `${navHeight}`,
+});
+headerObserver.observe(header);
