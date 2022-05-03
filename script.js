@@ -18,6 +18,10 @@ const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
 const header = document.querySelector('.header');
 const imgTargets = document.querySelectorAll('img[data-src]');
+const slides = document.querySelectorAll('.slide');
+const slider = document.querySelector('.slider');
+const btnLeft = document.querySelector('.slider__btn--left');
+const btnRight = document.querySelector('.slider__btn--right');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -51,35 +55,35 @@ document.addEventListener('keydown', function (e) {
 // Creating and inserting elements
 // .insertAdjacentHTML
 
-const message = document.createElement('div');
-message.classList.add('cookie-message');
-message.textContent =
-  'We use cookies for improved functionality and analytics.';
-message.innerHTML = `We use cookies for improved functionality and analytics. <button class="btn btn--close-cookie">Got it!</button>`;
+// const message = document.createElement('div');
+// message.classList.add('cookie-message');
+// message.textContent =
+// 'We use cookies for improved functionality and analytics.';
+// message.innerHTML = `We use cookies for improved functionality and analytics. <button class="btn btn--close-cookie">Got it!</button>`;
 
 // header.prepend(message);
-header.append(message);
+// header.append(message);
 // header.append(message.cloneNode(true));
 // header.before(message);
 // header.after(message);
 
 // Delete elements
-document
-  .querySelector('.btn--close-cookie')
-  .addEventListener('click', function () {
-    message.remove();
-    // message.parentElement.removeChild(message);
-  });
-console.log(message);
-console.log('new branch');
+// document
+//   .querySelector('.btn--close-cookie')
+//   .addEventListener('click', function () {
+//     message.remove();
+// message.parentElement.removeChild(message);
+//   });
+// console.log(message);
+// console.log('new branch');
 
 // Styles
-message.style.backgroundColor = '#37383d';
-message.style.width = '120%';
+// message.style.backgroundColor = '#37383d';
+// message.style.width = '120%';
 
-message.style.height =
-  Number.parseFloat(getComputedStyle(message).height, 10) + 20 + 'px';
-console.log(getComputedStyle(message).height);
+// message.style.height =
+//   Number.parseFloat(getComputedStyle(message).height, 10) + 20 + 'px';
+// console.log(getComputedStyle(message).height);
 
 // document.documentElement.style.setProperty('--color-primary', 'orangered');
 
@@ -282,7 +286,6 @@ headerObserver.observe(header);
 
 const revealSection = function (entries, observer) {
   const [entry] = entries;
-  console.log(entry);
   if (!entry.isIntersecting) return;
   entry.target.classList.remove('section--hidden');
   observer.unobserve(entry.target);
@@ -299,7 +302,6 @@ allSections.forEach(function (section) {
 // Lazy loading images
 const loadImg = function (entries, observer) {
   const [entry] = entries;
-  console.log(entry);
   if (!entry.isIntersecting) return;
   // Replace src with data-src
   entry.target.src = entry.target.dataset.src;
@@ -310,5 +312,39 @@ const loadImg = function (entries, observer) {
 const imgObserver = new IntersectionObserver(loadImg, {
   root: null,
   threshold: 0,
+  rootMargin: '200px',
 });
 imgTargets.forEach(img => imgObserver.observe(img));
+
+// Slider
+let curSlide = 0;
+const maxSlide = slides.length;
+slider.style.transform = `scale(0.5)`;
+slider.style.overflow = 'visible';
+
+const goToSlide = function (slide) {
+  slides.forEach(
+    (s, i) => (s.style.transform = `translateX(${100 * (i - curSlide)}%)`)
+  );
+};
+goToSlide(0);
+// Next slide
+const nextSlide = function () {
+  if (curSlide === maxSlide - 1) {
+    curSlide = 0;
+  } else {
+    curSlide++;
+  }
+  goToSlide(curSlide);
+};
+
+const prevSlide = function () {
+  if (curSlide === 0) {
+    curSlide = maxSlide - 1;
+  } else {
+    curSlide--;
+  }
+  goToSlide(curSlide);
+};
+btnRight.addEventListener('click', nextSlide);
+btnLeft.addEventListener('click', prevSlide);
